@@ -36,7 +36,19 @@ def search_news(url):
 
 Here, we've added the "tbs": f"qdr:w" parameter to the search parameters, which tells the search engine to only return articles published within the last week. You can modify this parameter to "qdr:d" if you want to search articles published within the last 24 hours, or "qdr:m" if you want to search articles published within the last month.
 
-To search the news section instead of the web, you can modify the "tbm" parameter in the search parameters from "nws" to "nws":
+To perform a general web search, you can set "tbm" to an empty string:
+
+```
+search_params = {
+    "q": search_query,
+    "tbm": "",  # General web search
+    "num": 10,  # Return 10 results
+    "gl": "us",  # Search from the United States
+    "hl": "en"  # Search results in English
+}
+```
+
+To search the news section instead of the web, you can modify the "tbm" parameter in the search parameters from "" to "nws":
 
 ```
 search_params = {
