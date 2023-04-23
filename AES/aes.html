@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>AES</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+        <script>
+            var _iv_ = CryptoJS.enc.Utf8.parse('BBBBBBBBBBBBBBBB')
+            function aes_encrypt(data, key) {
+                var key2 = CryptoJS.enc.Utf8.parse(key);
+                var encrypted = CryptoJS.AES.encrypt(data, key2, { iv: _iv_, mode: CryptoJS.mode.CBC});
+                return encrypted.toString();
+            }
+
+            function aes_decrypt(enc, key) {
+                var key2 = CryptoJS.enc.Utf8.parse(key);
+                var data = CryptoJS.AES.decrypt(enc, key2, {iv: _iv_, mode: CryptoJS.mode.CBC});
+                return data.toString(CryptoJS.enc.Utf8);
+            }
+        </script>
+    </head>
+    <body>
+        <h3>This is AES test page, check console log</h3>
+        <script>
+            var data = 'I love you'
+            var key = 'AAAAAAAAAAAAAAAA' //16 char for AES128
+
+            var enc = aes_encrypt(data, key)
+            console.log('encrypted CBC base64 : ' + enc)
+            console.log('data: ' + aes_decrypt(enc, key))
+        </script>
+    </body>
+</html>

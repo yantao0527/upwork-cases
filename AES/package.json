@@ -1,0 +1,15 @@
+{
+  "name": "upwork_aes",
+  "version": "1.0.0",
+  "description": "AES (Advanced Encryption Standard) for nodejs.",
+  "main": "aes.js",
+  "scripts": {
+    "test": "node aes_test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "crypto": "^1.0.1"
+  }
+}
