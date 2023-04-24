@@ -6,9 +6,17 @@
     <body>
         <h3>This is pattern formater test page, check console log</h3>
         <script>
-            const str = 'ab12gt';
-            const pattern = 'aa-dd-aa';
-            const formatted = patternFormater(str, pattern, true); // 'ab-12-gt'
+            let str = 'ab12gt';
+            let pattern = 'aa-*';
+            let formatted = patternFormater(str, pattern, true); // 'aa-12gt'
+            console.log('String: ' + str);
+            console.log('Pattern: ' + pattern);
+            console.log('Result: ' + formatted);
+            console.log('\n\n');
+
+            str = 'ab12gt';
+            pattern = 'aa-dd-aa';
+            formatted = patternFormater(str, pattern, true); // 'ab-12-gt'
             console.log('String: ' + str);
             console.log('Pattern: ' + pattern);
             console.log('Result: ' + formatted);
