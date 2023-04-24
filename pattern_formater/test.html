@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Pattern Formater</title>
+        <script src="formater.js"></script>
+    </head>
+    <body>
+        <h3>This is pattern formater test page, check console log</h3>
+        <script>
+            const str = 'ab12gt';
+            const pattern = 'aa-dd-aa';
+            const formatted = patternFormater(str, pattern, true); // 'ab-12-gt'
+            console.log('String: ' + str);
+            console.log('Pattern: ' + pattern);
+            console.log('Result: ' + formatted);
+        </script>
+    </body>
+</html>
