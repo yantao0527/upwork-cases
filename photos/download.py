@@ -41,7 +41,7 @@ def match_extension(file_name, extensions):
 def make_zip_filename(folder_name, extensions):
     extensions.sort()
     ext_str="_".join(extensions)
-    return f'{folder_name}_{ext_str}.zip'
+    return f'{folder_name}/{folder_name}_{ext_str}.zip'
 
 @app.route('/download-folder')
 def download_folder():
