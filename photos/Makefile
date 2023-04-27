@@ -10,3 +10,6 @@ download-A:
 
 download-E:
 	curl "http://127.0.0.1:2200/download-folder?folder_name=Folder%20E"
+
+download-sub:
+	curl "http://127.0.0.1:2200/download-folder?folder_name=Folder%20E/sub"

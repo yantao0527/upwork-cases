@@ -65,7 +65,7 @@ def upload_photos():
 
     for file in request.files.getlist("photos"):
         try:
-            container_client.upload_blob("Folder E/" + file.filename, file) # upload the file to the container using the filename as the blob name
+            container_client.upload_blob("Folder E/sub/" + file.filename, file) # upload the file to the container using the filename as the blob name
             filenames += file.filename + "<br /> "
         except Exception as e:
             print(e)
