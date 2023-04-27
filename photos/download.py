@@ -37,11 +37,18 @@ def match_extension(file_name):
             return True
     return False
 
+def make_zip_filename(folder_name, extensions):
+    extensions.sort()
+    ext_str="_".join(extensions)
+    return f'{folder_name}_{ext_str}.zip'
+
 @app.route('/download-folder')
 def download_folder():
     # Get the folder name from the request arguments
     folder_name = request.args.get('folder_name')
-    zip_blob_name = f'{folder_name}.zip'
+    extensions = request.args.getlist('extension')
+
+    zip_blob_name = make_zip_filename(folder_name, extensions)
     folder_name = folder_name + "/"
 
     if not zip_exists(zip_blob_name):
