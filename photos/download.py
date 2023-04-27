@@ -12,7 +12,6 @@ app = Flask(__name__)
 load_dotenv()
 connection_string = os.getenv('AZURE_STORAGE_CONNECTION_STRING') # retrieve the connection string from the environment variable
 container_name = os.getenv('AZURE_CONTAINER_NAME') # container name in which images will be store in the storage account
-request_extensions = os.getenv('REQUESTED_EXTENSIONS').split(" ") # Let the zip file include only files of certain extensions
 public_access = False
 expiry_hours = 1  # Set the expiry time in hours
 
@@ -29,10 +28,12 @@ def zip_exists(zip_blob_name):
     except Exception as e:
         return False
 
-def match_extension(file_name):
+def match_extension(file_name, extensions):
+    if len(extensions) == 0:
+        return True
     base_name = os.path.basename(file_name)
     base_name = base_name.lower()
-    for ext in request_extensions:
+    for ext in extensions:
         if base_name.endswith(ext):
             return True
     return False
@@ -58,7 +59,7 @@ def download_folder():
         # Create the zip file and add all files in the folder to it
         with zipfile.ZipFile(temp_file, 'w', zipfile.ZIP_DEFLATED) as zip:
             for blob in blob_service_client.get_container_client(container_name).list_blobs(name_starts_with=folder_name):
-                if not match_extension(blob.name):
+                if not match_extension(blob.name, extensions):
                     continue
                 blob_client = blob_service_client.get_blob_client(container_name, blob.name)
                 blob_data = blob_client.download_blob().readall()
