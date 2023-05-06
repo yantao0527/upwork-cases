@@ -5,6 +5,9 @@ srv-photos:
 srv-download:
 	python download.py
 
+srv-progress:
+	python upload_progress.py
+
 download-A:
 	curl http://127.0.0.1:2200/download-folder?folder_name=FolderA
 

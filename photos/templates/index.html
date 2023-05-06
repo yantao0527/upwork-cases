@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload with Progress</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <form id="upload-form">
+        <input type="file" name="photos" multiple>
+        <button type="submit">Upload Files</button>
+    </form>
+    <p id="total-files"></p>
+    <ul id="uploaded-files"></ul>
+
+    <script>
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('total_files', data => {
+            $('#total-files').text('Total Files: ' + data.total);
+        });
+
+        socket.on('uploaded_file', data => {
+            console.log(data.filename)
+            $('#uploaded-files').append('<li>' + data.filename + ' ' + data.sn + '/' + data.total + '</li>');
+        });
+
+        socket.on('upload_complete', () => {
+            $('#uploaded-files').append('<li>All files uploaded successfully!</li>');
+        });
+
+        $('#upload-form').on('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            $.ajax({
+                url: '/upload2',
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function() {
+                    alert('All files uploaded successfully!');
+                },
+                error: function() {
+                    alert('An error occurred while uploading the files.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
