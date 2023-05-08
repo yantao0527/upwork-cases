@@ -26,6 +26,8 @@ def upload_files():
 
 @app.route('/upload2', methods=['POST'])
 def upload_files2():
+    socketio.emit('total_files', {'total': 0})
+    
     files = request.files.getlist('photos')
     
     total_files = len(files)
