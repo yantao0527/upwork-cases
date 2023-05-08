@@ -11,6 +11,7 @@
             position: fixed;
             left: 50%;
             top: 50%;
+            width: 40%;
             transform: translate(-50%, -50%);
             background-color: white;
             border: 1px solid black;
@@ -52,19 +53,17 @@
             $('#progress-popup').show();
             $('#total-files').text('Total Files: ' + data.total);
             const progressBar = $('#progress-bar > div');
-            const currentWidth = parseFloat(progressBar.width()) / parseFloat($('#progress-bar').width());
-            const newWidth = 1
+            const newWidth = 0
             progressBar.width(newWidth + '%');
-            $('#uploaded-percentage').text('Uploaded: ' + Math.round(newWidth) + '%');
+            $('#uploaded-percentage').text('0 Uploaded: ' + newWidth + '%');
         });
 
         socket.on('uploaded_file', data => {
             console.log(data.filename, data.sn, data.total)
             const progressBar = $('#progress-bar > div');
-            const currentWidth = parseFloat(progressBar.width()) / parseFloat($('#progress-bar').width());
-            const newWidth = (currentWidth * data.sn + 1) / data.total * 100;
+            const newWidth = Math.round(data.sn / data.total * 100);
             progressBar.width(newWidth + '%');
-            $('#uploaded-percentage').text('Uploaded: ' + Math.round(newWidth) + '%');
+            $('#uploaded-percentage').text(data.sn + ' Uploaded: ' + newWidth + '%');
         });
 
         socket.on('upload_complete', () => {
