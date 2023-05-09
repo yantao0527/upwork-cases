@@ -10,4 +10,21 @@ After many attempts, it was finally decided to abandon the Websocket solution. T
   - onFilesSelected: select a group files
   - uploadFiles: upload a group of files
   - uploadFile: upload a single file
-  
+
+## Demo
+
+**Frontend**
+
+```
+cd photos/frontend
+npm install
+npm start
+```
+
+**Backend**
+
+```
+cd photos
+python upload_progress.py
+```
+
