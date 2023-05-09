@@ -1,0 +1,13 @@
+<div>
+  <h1>File Upload</h1>
+  <input type="file" multiple (change)="onFilesSelected($event)" />
+  <button (click)="uploadFiles()">Upload</button>
+
+  <div *ngIf="uploadInProgress">
+    <mat-progress-bar mode="determinate" [value]="currentFileProgress"></mat-progress-bar>
+    <p>Total files: {{totalFiles}}</p>
+    <p>Current file: {{currentFileIndex + 1}}</p>
+    <p>Progress: {{currentFileProgress.toFixed(0)}}%</p>
+    <p>File name: {{currentFilename}}</p>
+  </div>
+</div>

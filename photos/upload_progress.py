@@ -1,7 +1,7 @@
 from gevent import monkey
 monkey.patch_all()
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO
 import time
 
@@ -22,7 +22,7 @@ def upload_files():
         time.sleep(5)
         print(filename)
 
-    return 'All files uploaded successfully'
+    return jsonify({"message": 'All files uploaded successfully'})
 
 @app.route('/upload2', methods=['POST'])
 def upload_files2():
