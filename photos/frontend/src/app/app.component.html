@@ -1,7 +1,9 @@
 <div>
   <h1>File Upload</h1>
-  <input type="file" multiple (change)="onFilesSelected($event)" />
+  <input type="file" (change)="onFilesSelected($event)" webkitdirectory multiple />
   <button (click)="uploadFiles()">Upload</button>
+
+  <div class="loading-bar" *ngIf="isLoadingBar"></div>
 
   <div *ngIf="uploadInProgress">
     <mat-progress-bar mode="determinate" [value]="currentFileProgress"></mat-progress-bar>
@@ -10,4 +12,11 @@
     <p>Progress: {{currentFileProgress.toFixed(0)}}%</p>
     <p>File name: {{currentFilename}}</p>
   </div>
+
+  <imgdb-file-progress
+    *ngIf="(hasActiveProgress$ | async) || false"
+    [uploadProgress]="uploadProgress"
+    (uploadCancel)="onUploadCancel()"
+  ></imgdb-file-progress>
+
 </div>

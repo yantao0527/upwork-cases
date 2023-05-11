@@ -20,4 +20,20 @@ margin-bottom: 5px;
 mat-progress-bar {
 margin-top: 10px;
 }
+
+@keyframes loading {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
+}
+  
+.loading-bar {
+    height: 16px;
+    background-color: #3f51b5; /* You can change the color */
+    animation: loading 2s linear infinite;
+  }
+  
   
