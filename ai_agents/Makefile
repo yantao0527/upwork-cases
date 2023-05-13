@@ -1,3 +1,4 @@
+include MakeEnv.mk
 
 install:
 	python -m pip install -r requirements.txt
@@ -11,12 +12,12 @@ search:
 docker-network:
 	docker network create ai_agents
 
-mysql:
+mysql-run:
 	docker run --name mysql -d \
 		--network ai_agents \
 		-p 3306:3306 \
 		-e MYSQL_ROOT_PASSWORD=admin123 \
-		-v $(PWD)/setup:/docker-entrypoint-initdb.d \
+		-v $(PWD)/setup/mysqlsampledatabase.sql:/docker-entrypoint-initdb.d/mysql.sql \
 		mysql:8
 
 mysql-rm:
@@ -29,3 +30,25 @@ mysql-cli:
 		-v $(PWD)/setup:/setup \
 		mysql:8 \
 		mysql -h mysql -u root -p
+
+#### Build Docker Image ####
+
+agents-build:
+	docker build -f setup/Dockerfile -t $(IMAGE_NAME):$(IMAGE_VERSION) .
+
+agents-rmi:
+	docker rmi $(IMAGE_NAME):$(IMAGE_VERSION)
+
+agents-run:
+	docker run --name ai_agents -d \
+		--network ai_agents \
+		-p 8501:8501 \
+		-v $(PWD)/.env.docker:/app/.env \
+		$(IMAGE_NAME):$(IMAGE_VERSION)
+
+agents-rm:
+	docker stop ai_agents
+	docker rm ai_agents
+
+agents-push:
+	docker push $(IMAGE_NAME):$(IMAGE_VERSION)

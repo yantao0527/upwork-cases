@@ -9,7 +9,8 @@ The PDF demo reads the PDF and splits the text into smaller chunks that can be t
 
 ## Installation
 
-To install the application, please clone this repository and install the requirements:
+To install the application, please clone this repository and create MakeEnv.mk file
+that copy from MakeEnv.example and install the requirements:
 ```
 make install
 ```
@@ -22,7 +23,7 @@ You also need to create .env file that copy from .env.example, then update it.
 You also install MySQL instance with docker.
 ```
 make docker-network
-make mysql
+make mysql-run
 ```
 
 ## Usage
