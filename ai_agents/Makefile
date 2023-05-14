@@ -66,7 +66,7 @@ mysql-push:
 ### Docker Compose ####
 
 stack-up:
-	docker-compose -f setup/stack.yml --project-name stack up
+	docker-compose -f setup/stack.yml --project-name stack up -d
 
 stack-down:
 	docker-compose -f setup/stack.yml --project-name stack  down
