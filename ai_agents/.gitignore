@@ -1,4 +1,5 @@
 
 .env
 .env.docker
+setup/.env.stack
 MakeEnv.mk

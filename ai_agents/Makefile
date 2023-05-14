@@ -1,4 +1,5 @@
 include MakeEnv.mk
+# include .env
 
 install:
 	python -m pip install -r requirements.txt
@@ -61,3 +62,11 @@ mysql-rmi:
 
 mysql-push:
 	docker push $(IMAGE_NAME_MYSQL):$(IMAGE_VERSION_MYSQL)
+
+### Docker Compose ####
+
+stack-up:
+	docker-compose -f setup/stack.yml --project-name stack up
+
+stack-down:
+	docker-compose -f setup/stack.yml --project-name stack  down
