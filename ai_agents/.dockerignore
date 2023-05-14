@@ -6,4 +6,3 @@
 .env
 .env.docker
 scripts/
-setup/

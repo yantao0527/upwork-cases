@@ -52,3 +52,12 @@ agents-rm:
 
 agents-push:
 	docker push $(IMAGE_NAME):$(IMAGE_VERSION)
+
+mysql-build:
+	docker build -f setup/Dockerfile_mysql -t $(IMAGE_NAME_MYSQL):$(IMAGE_VERSION_MYSQL) .
+
+mysql-rmi:
+	docker rmi $(IMAGE_NAME_MYSQL):$(IMAGE_VERSION_MYSQL)
+
+mysql-push:
+	docker push $(IMAGE_NAME_MYSQL):$(IMAGE_VERSION_MYSQL)
