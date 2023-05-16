@@ -32,41 +32,103 @@ mysql-cli:
 		mysql:8 \
 		mysql -h mysql -u root -p
 
+mysql-bash:
+	docker run -it --rm \
+		--network ai_agents \
+		-v $(PWD)/setup:/setup \
+		mysql:8 \
+		bash
+
 #### Build Docker Image ####
 
+DOCKER_AGENTS=$(DOCKER_PREFIX)/$(IMAGE_NAME):$(IMAGE_VERSION)
+
 agents-build:
-	docker build -f setup/Dockerfile -t $(IMAGE_NAME):$(IMAGE_VERSION) .
+	docker build -f setup/Dockerfile -t $(DOCKER_AGENTS) .
 
 agents-rmi:
-	docker rmi $(IMAGE_NAME):$(IMAGE_VERSION)
+	docker rmi $(DOCKER_AGENTS)
 
 agents-run:
 	docker run --name ai_agents -d \
 		--network ai_agents \
 		-p 8501:8501 \
 		-v $(PWD)/.env.docker:/app/.env \
-		$(IMAGE_NAME):$(IMAGE_VERSION)
+		$(DOCKER_AGENTS)
 
 agents-rm:
 	docker stop ai_agents
 	docker rm ai_agents
 
 agents-push:
-	docker push $(IMAGE_NAME):$(IMAGE_VERSION)
+	docker push $(DOCKER_AGENTS)
+
+DOCKER_MYSQL=$(DOCKER_PREFIX)/$(IMAGE_NAME_MYSQL):$(IMAGE_VERSION_MYSQL)
 
 mysql-build:
-	docker build -f setup/Dockerfile_mysql -t $(IMAGE_NAME_MYSQL):$(IMAGE_VERSION_MYSQL) .
+	docker build -f setup/Dockerfile_mysql -t $(DOCKER_MYSQL) .
 
 mysql-rmi:
-	docker rmi $(IMAGE_NAME_MYSQL):$(IMAGE_VERSION_MYSQL)
+	docker rmi $(DOCKER_MYSQL)
 
 mysql-push:
-	docker push $(IMAGE_NAME_MYSQL):$(IMAGE_VERSION_MYSQL)
+	docker push $(DOCKER_MYSQL)
 
-### Docker Compose ####
+### Deploy Docker Container ####
 
 stack-up:
 	docker-compose -f setup/stack.yml --project-name stack up -d
 
 stack-down:
 	docker-compose -f setup/stack.yml --project-name stack  down
+
+#### Build Gcloud Image ####
+
+registry-enable:
+	gcloud services enable artifactregistry.googleapis.com
+
+registry-create:
+	gcloud artifacts repositories create $(REPOSITORY_NAME) --repository-format=docker --location=$(LOCATION) --description="AI Agents Repository"
+
+registry-auth:
+	gcloud auth configure-docker $(LOCATION)-docker.pkg.dev
+
+REGISTRY_MYSQL=$(REGISTRY_PREFIX)/$(IMAGE_NAME_MYSQL):$(IMAGE_VERSION_MYSQL)
+
+registry-tag-mysql:
+	docker tag $(DOCKER_MYSQL) $(REGISTRY_MYSQL)
+
+registry-push-mysql:
+	docker push $(REGISTRY_MYSQL)
+
+DOCKER_ADMINER=adminer:latest
+REGISTRY_ADMINER=$(REGISTRY_PREFIX)/adminer:latest
+
+registry-tag-adminer:
+	docker tag $(DOCKER_ADMINER) $(REGISTRY_ADMINER)
+
+registry-push-adminer:
+	docker push $(REGISTRY_ADMINER)
+
+REGISTRY_AGENTS=$(REGISTRY_PREFIX)/$(IMAGE_NAME):$(IMAGE_VERSION)
+
+registry-tag-agents:
+	docker tag $(DOCKER_AGENTS) $(REGISTRY_AGENTS)
+
+registry-push-agents:
+	docker push $(REGISTRY_AGENTS)
+
+#### Deploy gcloud run ####
+
+gcloud-sql:
+	gcloud sql instances create mysql --database-version=MYSQL_8_0 --tier=db-n1-standard-1 --region=$(LOCATION)
+
+gcloud-classicmodels:
+	gcloud sql databases create mysql --instance=classicmodels
+
+gcloud-connection:
+	gcloud sql instances describe mysql --format='value(connectionName)'
+
+gcloud-sql-connect:
+	gcloud run services update adminer --add-cloudsql-instances=ai-agents-386717:us-central1:mysql --region=$(LOCATION)
+
