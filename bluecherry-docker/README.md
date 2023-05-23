@@ -138,3 +138,12 @@ Keep in mind that this is a simple example and there are many other factors to c
 Automatically patching a MySQL instance with an application image is a bad idea. Instead, you would typically apply database patches or upgrades manually or using a controlled process, to avoid potential issues or data loss.
 
 I can also provide custom scripts to automatically patch a MySQL instance before running the application if needed.
+
+## The Key
+
+I think containerization technology is a good choice. Docker containers can run on any system that has Docker installed. This means you can run your applications on any machine, cloud service, or operating system that supports Docker.
+
+The key to this task is how to initialize and upgrade the database and coordinate with the application in docker compose environment.
+I suggest that all of the database, the data of application, the scripts of the data integrate with MySQL image. It's better to introduce database version control. The application not only needs to retry the database connection, but also needs to verify the version of the database. This will greatly improve application and database coordination.
+
+In addition the script install.sh will setup docker compose configrature  including .env, and also setup email notification. And it will also check if docker is installed and check if email send successfully. But it doesn't provide the capablities to install docker and setup Mail Transfer Agent(MTA) becasue the process can vary between different systems and distributions.
