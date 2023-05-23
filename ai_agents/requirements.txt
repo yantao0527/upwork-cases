@@ -1,6 +1,7 @@
 python-dotenv
 cryptography
 streamlit
+streamlit_chat
 
 langchain
 openai

@@ -1,6 +1,10 @@
 include MakeEnv.mk
 # include .env
 
+agents-push-gcloud: agents-build registry-tag-agents registry-push-agents
+
+####
+
 install:
 	python -m pip install -r requirements.txt
 
