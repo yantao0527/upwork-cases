@@ -25,8 +25,8 @@ def chat_history():
             SystemMessage(content="You are a helpful assistant.")
         ]
 
-    history = st.empty()
-    with history.container():
+    history = st.container()
+    with history:
         # display message history
         messages = st.session_state.get('messages', [])
         for i, msg in enumerate(messages[1:]):
@@ -39,19 +39,15 @@ def chat_history():
     # handle user input
     if user_input:
         st.session_state.messages.append(HumanMessage(content=user_input))
+        with history:
+            message(user_input, is_user=True)
         with st.spinner("Thinking..."):
             response = chat(st.session_state.messages)
         st.session_state.messages.append(
             AIMessage(content=response.content))
+        with history:
+            message(response.content, is_user=False)
 
-    with history.container():
-        # display message history
-        messages = st.session_state.get('messages', [])
-        for i, msg in enumerate(messages[1:]):
-            if i % 2 == 0:
-                message(msg.content, is_user=True, key=str(i) + '_user')
-            else:
-                message(msg.content, is_user=False, key=str(i) + '_ai')
 
 if __name__ == '__main__':
     chat_history()
