@@ -1,5 +1,7 @@
 # Telegram Bot with ChatGPT
 
+Telegram Bot Link: https://t.me/FrankCloudflareBot
+
  I create a simple bot that works on Cloudflare workers and handles users messages with ChatGPT.
 
  - Wrangler: CLI for Cloudflare Workers
