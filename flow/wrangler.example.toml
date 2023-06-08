@@ -1,0 +1,5 @@
+name = "flow"
+main = "app.vue"
+# Date depends on a wrangler version. It's probable will be a date of your work with code.
+compatibility_date = "2023-05-18"
+send_metrics = false
