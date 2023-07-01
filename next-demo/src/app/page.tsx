@@ -29,7 +29,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="outline outline-1 px-12 py-4">
+      <div className="px-12 py-4 outline outline-1">
         <Link href="/game">Tic-Tac-Toe</Link>
       </div>
 
