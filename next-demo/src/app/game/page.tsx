@@ -2,6 +2,10 @@
 
 import { useState } from 'react'
 
+function isFilled(value: string) {
+  return value === 'X' || value === 'O'
+}
+
 function Square({
   value,
   onSquareClick,
